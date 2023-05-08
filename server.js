@@ -8,12 +8,11 @@ const expressSession = require('express-session')
 const app = express()
 const port = 3066
 
-require('./database');
-
-// const connect = require('./config/mysql')
-// connect.query('show tables', (err, result) => {
-//     console.log(result)
-// })
+// const sequelize = require('./config/sequelize')
+const connect = require('./config/mysql')
+connect.query('show tables', (err, result) => {
+    console.log(result)
+})
 
 
 // ตั้งค่า Session สำหรับ server
@@ -40,3 +39,14 @@ app.get('*', (req, res) => {
 })
 
 app.listen(port, () => console.log(`Server is start on port ${port}!`))
+
+// sequelize
+//   .sync()
+//   .then(result => {
+//     // console.log(result);
+//     console.log('Connection database successfully')
+//   })
+//   .catch(err => {
+//     console.log('unable to connec database', err)
+//   });
+
