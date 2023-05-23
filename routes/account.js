@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
+const { onRegister } = require('../services/account')
 
 // หน้าลงทะเบียน
 router.post('/register', [
@@ -7,10 +8,10 @@ router.post('/register', [
     check('u_password').not().isEmpty(),
     check('u_firstname').not().isEmpty(),
     check('u_lastname').not().isEmpty()
-], (req, res) => {
+], async (req, res) => {
     try {
         req.validate();
-        res.json({ message: req.body });
+        res.json(await onRegister(req.body))
     }
     catch (ex) {
         res.error(ex);
