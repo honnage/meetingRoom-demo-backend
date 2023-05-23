@@ -1,52 +1,34 @@
-import express  from 'express'
+const express = require('express')
+const app = express()
+const expressSession = require('express-session')
+const bodyParser = require('body-parser')
 import morgan  from 'morgan'
 import cors  from 'cors'
-
-const bodyParser = require('body-parser')
-const expressSession = require('express-session')
-
-const app = express()
 const port = 3066
 
-// const sequelize = require('./config/sequelize')
-const connect = require('./config/mysql')
-connect.query('show tables', (err, result) => {
-    console.log(result)
-})
-
-
-// ตั้งค่า Session สำหรับ server
+// ตั้งค่า Session สำหรับระบบ
 app.use(expressSession({
-    secret: 'allfor1',
+    secret: 'ttvone.com',
     resave: false,
     saveUninitialized: true,
-    cookie: {  }
-}))
+    cookie: {}
+}));
 
-// ตั้งค่า Parse ตัวแปรเมื่อ client ส่งข้อมูลเข้ามา
+// ตั้งค่าการ Parse ตัวแปรเมื่อ Client ส่งข้อมูลเข้ามา
 app.use(morgan('dev'))
 app.use(cors())
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-app.get('/s', (req, res) => {
-    req.session.item = "Hello world"
-    res.end('set session')
-})
+// สร้าง Custom function
+app.use(require('./configs/middleware'));
+// เรียกใช้งาน routes
+app.use('/api', require('./routes'));
 
 app.get('*', (req, res) => {
-    res.end(`<h1>backend server is start. session is ${req.session.item}</h1>`)
-})
+    res.end(`<h1>Backend server is startd.</h1>`);
+});
 
-app.listen(port, () => console.log(`Server is start on port ${port}!`))
+app.listen(port, () => console.log(`Server is started, Port ${port}.`))
 
-// sequelize
-//   .sync()
-//   .then(result => {
-//     // console.log(result);
-//     console.log('Connection database successfully')
-//   })
-//   .catch(err => {
-//     console.log('unable to connec database', err)
-//   });
 
