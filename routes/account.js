@@ -19,4 +19,17 @@ router.post('/register', [
     }
 });
 
+
+router.post('/login', [
+    check('u_username').not().isEmpty(),
+    check('u_password').not().isEmpty(),
+], (req, res, next) => {
+    try {
+        req.validate()
+        res.json({message: 'login page'})
+    } catch (err) {
+        res.error(err)
+    }
+})
+
 module.exports = router;
