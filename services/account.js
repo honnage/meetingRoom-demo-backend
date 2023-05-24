@@ -14,7 +14,6 @@ module.exports = {
 
     onLogin(value) {
         return new Promise((resolve, reject) => {
-            console.log('=== onLogin', value)
             connection
                 .query('SELECT * FROM tb_users WHERE u_username = ?', [value.u_username], (error, result) => {
                     if (error) return reject(error);
