@@ -4,7 +4,7 @@ const { onRegister } = require('../services/account')
 
 // หน้าลงทะเบียน
 router.post('/register', [
-    check('u_username', 'กรุณากรอกข้อมูล').not().isEmpty(),
+    check('u_username', 'Please input your ').not().isEmpty(),
     check('u_password').not().isEmpty(),
     check('u_firstname').not().isEmpty(),
     check('u_lastname').not().isEmpty()
@@ -14,6 +14,7 @@ router.post('/register', [
         res.json(await onRegister(req.body))
     }
     catch (ex) {
+        console.log('error connent database fail')
         res.error(ex);
     }
 });
